@@ -11,17 +11,19 @@ public class MapRunner implements Runnable{
 	//Runs the Mapper
 	
 	private int threadId;
+	private int mapperId;
 	private FileSplitInformation split;
 	MapReduceSpecification spec;
-	public MapRunner(MapReduceSpecification spec, FileSplitInformation split, int id){
+	public MapRunner(MapReduceSpecification spec, FileSplitInformation split, int id, int mapperId){
 		this.split = split;
 		this.threadId = id;
 		this.spec = spec;
+		this.mapperId = mapperId;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void run(){
-		System.out.println("Mapper " + threadId + " Starting");
+		System.out.println("Mapper " + mapperId + " Thread " + threadId + " Starting");
 		FileRecordReader frr = new FileRecordReader(split);
 		String temp1;		
 		ArrayList<KeyValueClass<?, ?>> list = null ;
@@ -41,7 +43,7 @@ public class MapRunner implements Runnable{
 		}
 		for(int i=0; i < list.size(); i++){
 			KeyValueClass<String, Integer> k = (KeyValueClass<String, Integer>) list.get(i);
-			System.out.println(k.getKey() + " - " + k.getValue());
+			System.out.println("Mapper " + mapperId + " - Thread " + threadId + " - "+ k.getKey() + " - " + k.getValue());
 		}
 	}
 	

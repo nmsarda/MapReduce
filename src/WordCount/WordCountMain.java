@@ -23,7 +23,8 @@ public class WordCountMain {
 			inp.setNumberOfFiles(1);
 			
 		spec.setNoOfThreads(10);
-		spec.minByteSize(1000);
+		spec.minByteSize(5);
+		spec.setNoOfMappers(2);
 		
 		JobRunner job = new JobRunner();
 		job.run(spec);

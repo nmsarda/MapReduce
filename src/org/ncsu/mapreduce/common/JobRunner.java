@@ -36,9 +36,9 @@ public class JobRunner {
 			
 			splits = (new FileSplitter()).getSplits(spec);
 		}
-		ExecutorService executor = Executors.newFixedThreadPool(splits.size());			
-		for(int i =0; i < splits.size(); i++){			
-			executor.submit(new MapRunner(spec, splits.get(i), i)); // Creates new Thread for MapRunner
+		ExecutorService executor = Executors.newFixedThreadPool((int)spec.getNoOfMappers());			
+		for(int i =0, k=0; i < splits.size(); i++, k = (k+1)%(int)spec.getNoOfMappers()){			
+			executor.submit(new MapRunner(spec, splits.get(i), i, k)); // Creates new Thread for MapRunner
 		}
 		executor.shutdown();
 		try {
@@ -47,7 +47,6 @@ public class JobRunner {
 	    }
 	        System.out.println("Completed");
 	}
-
 		
 }
 
