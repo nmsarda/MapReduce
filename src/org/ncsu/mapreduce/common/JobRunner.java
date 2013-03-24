@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.ncsu.mapreduce.datasource.file.CreateInputFiles;
+import org.ncsu.mapreduce.datasource.file.FileReaderAtReducer;
 import org.ncsu.mapreduce.datasource.file.FileSplitInformation;
 import org.ncsu.mapreduce.datasource.file.FileSplitter;
 
@@ -48,6 +49,16 @@ public class JobRunner {
 	    } catch (InterruptedException ex) {            
 	    }
 	        System.out.println("Completed");
+	    
+	    executor = Executors.newFixedThreadPool((int)spec.getNoOfReducers());
+	    for(int i =0; i < (int)spec.getNoOfReducers(); i++){			
+			executor.submit(new ReduceRunner(i, i)); // Creates new Thread for MapRunner
+		}
+		executor.shutdown();
+		try {
+	           executor.awaitTermination(1, TimeUnit.DAYS); // waits for all threads to complete
+	    } catch (InterruptedException ex) {            
+	    }
 	}
 	private void createReducerDirs(MapReduceSpecification spec)
 	{
