@@ -44,14 +44,10 @@ public class MapRunner implements Runnable{
 			}			
 		}
 		
-		for(int i=0; i < list.size(); i++){
-			KeyValueClass<String, Integer> k = (KeyValueClass<String, Integer>) list.get(i);
-			
-		
-			
-			
-			
-		}
+		/*for(int i=0; i < list.size(); i++){
+			KeyValueClass<String, Integer> k = (KeyValueClass<String, Integer>) list.get(i);		
+
+		}*/
 		SortWrite sortWrite = new SortWrite();
 		sortWrite.createAndSortLists(spec, list,mapperID,threadID);
 	}

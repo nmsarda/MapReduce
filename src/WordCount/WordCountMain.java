@@ -23,6 +23,10 @@ public class WordCountMain {
 			inp.setFormat("textinput");
 			inp.setDbConnectionParameters(dbConn);
 			inp.setNumberOfFiles(1);
+		
+		MapReduceOutput op = spec.output();
+			op.setOutputFileDirectory("Reducer");
+			op.setReducerClass("WordCount.Reducer");
 			
 		spec.setNoOfThreads(10);
 		spec.minByteSize(5);

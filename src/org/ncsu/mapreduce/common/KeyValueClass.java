@@ -29,7 +29,6 @@ this.value = value;
 @SuppressWarnings("unchecked")
 @Override
 public int compareTo(KeyValueClass<K, V> o) {
-	// TODO Auto-generated method stub
 	return this.key.compareTo(o.key);
 }
 

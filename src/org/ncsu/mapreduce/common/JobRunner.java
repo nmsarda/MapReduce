@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
 import org.ncsu.mapreduce.datasource.file.CreateInputFiles;
-import org.ncsu.mapreduce.datasource.file.FileReaderAtReducer;
 import org.ncsu.mapreduce.datasource.file.FileSplitInformation;
 import org.ncsu.mapreduce.datasource.file.FileSplitter;
 
@@ -52,7 +50,7 @@ public class JobRunner {
 	    
 	    executor = Executors.newFixedThreadPool((int)spec.getNoOfReducers());
 	    for(int i =0; i < (int)spec.getNoOfReducers(); i++){			
-			executor.submit(new ReduceRunner(i, i)); // Creates new Thread for MapRunner
+			executor.submit(new ReduceRunner(spec, i)); // Creates new Thread for MapRunner
 		}
 		executor.shutdown();
 		try {

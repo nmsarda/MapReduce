@@ -40,15 +40,6 @@ public class SortWrite {
 			Collections.sort(reduceLists[i]);
 			writeToFile(mapperID,threadID,i,reduceLists[i]);
 		}
-		
-		
-		
-		System.out.println("hi");
-		
-		
-		
-		
-		
 	}
 	
 	private void writeToFile(Integer mapperID,Integer threadID,Integer reducerID,List list)
@@ -61,16 +52,13 @@ public class SortWrite {
 			while(it.hasNext())
 			{
 				KeyValueClass<String, Integer> obj = it.next();
-				bwrite.write(obj.getKey()+"   "+ obj.getValue());
+				bwrite.write(obj.getKey()+" "+ obj.getValue());
 				bwrite.newLine();
 		
 				
 			}
 			bwrite.close();
-			fwrite.close();
-			
-			
-			
+			fwrite.close();			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

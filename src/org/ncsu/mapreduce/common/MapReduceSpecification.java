@@ -7,7 +7,8 @@ public class MapReduceSpecification {
 	private int noOfReducers;
 	private Class<?> OutputKeyformat;
 	private Class<?> OutputValueformat;
-	private MapReduceInput inp;	
+	private MapReduceInput inp;
+	private MapReduceOutput mapReduceOutputClass; 
 	
 	public Class<?> getOutputKeyformat() {
 		return OutputKeyformat;
@@ -70,11 +71,25 @@ public class MapReduceSpecification {
 		return inp;
 	}
 
+	public MapReduceOutput output(){
+		mapReduceOutputClass = new MapReduceOutput();
+		return mapReduceOutputClass;
+	}
 	public double getNoOfMappers() {		
 		return noOfMappers;
 	}
 	
 	public int getNoOfReducers() {		
 		return noOfReducers;
+	}
+
+	
+	public MapReduceOutput getMapReduceOutputClass() {
+		return mapReduceOutputClass;
+	}
+
+	
+	public void setMapReduceOutputClass(MapReduceOutput mapReduceOutputClass) {
+		this.mapReduceOutputClass = mapReduceOutputClass;
 	}
 }

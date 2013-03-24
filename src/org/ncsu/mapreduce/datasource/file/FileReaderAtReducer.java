@@ -11,11 +11,9 @@
 		
 		private BufferedReader[] bufferedReader;// = new BufferedReader(new FileReader("abc.txt")); 
 		private int numberOfFiles;
-		private int reducerId;
 		private String directoryPath;
 		private String currentLine[];
 		public FileReaderAtReducer(int reducerId){
-			this.reducerId = reducerId;
 			directoryPath = "ReducerData" + System.getProperty("file.separator") + "Reducer_" + reducerId + System.getProperty("file.separator");
 			numberOfFiles = new File(directoryPath).list().length;
 			currentLine = new String[numberOfFiles];
