@@ -6,27 +6,29 @@ import java.util.ArrayList;
 
 import org.ncsu.mapreduce.datasource.file.FileRecordReader;
 import org.ncsu.mapreduce.datasource.file.FileSplitInformation;
+import org.ncsu.mapreduce.util.SortWrite;
 
 public class MapRunner implements Runnable{
 	//Runs the Mapper
 	
-	private int threadId;
-	private int mapperId;
+	private int threadID;
+	private int mapperID;
 	private FileSplitInformation split;
 	MapReduceSpecification spec;
 	public MapRunner(MapReduceSpecification spec, FileSplitInformation split, int id, int mapperId){
 		this.split = split;
-		this.threadId = id;
+		this.threadID = id;
 		this.spec = spec;
-		this.mapperId = mapperId;
+		this.mapperID = mapperId;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void run(){
-		System.out.println("Mapper " + mapperId + " Thread " + threadId + " Starting");
+		
 		FileRecordReader frr = new FileRecordReader(split);
 		String temp1;		
 		ArrayList<KeyValueClass<?, ?>> list = null ;
+		System.out.println("ThreadID "+Thread.currentThread().getId());
 		while((temp1=frr.getNext())!=null){
 			try {
 				Method map = spec.getMapReduceInput().getMapperClass().getDeclaredMethod("map", String.class);
@@ -41,10 +43,17 @@ public class MapRunner implements Runnable{
 				e.printStackTrace();
 			}			
 		}
+		
 		for(int i=0; i < list.size(); i++){
 			KeyValueClass<String, Integer> k = (KeyValueClass<String, Integer>) list.get(i);
-			System.out.println("Mapper " + mapperId + " - Thread " + threadId + " - "+ k.getKey() + " - " + k.getValue());
+			
+		
+			
+			
+			
 		}
+		SortWrite sortWrite = new SortWrite();
+		sortWrite.createAndSortLists(spec, list,mapperID,threadID);
 	}
 	
 }

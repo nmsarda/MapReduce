@@ -1,6 +1,7 @@
 package org.ncsu.mapreduce.common;
 
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class JobRunner {
 			
 			splits = (new FileSplitter()).getSplits(spec);
 		}
+		createReducerDirs(spec);
 		ExecutorService executor = Executors.newFixedThreadPool((int)spec.getNoOfMappers());			
 		for(int i =0, k=0; i < splits.size(); i++, k = (k+1)%(int)spec.getNoOfMappers()){			
 			executor.submit(new MapRunner(spec, splits.get(i), i, k)); // Creates new Thread for MapRunner
@@ -46,6 +48,17 @@ public class JobRunner {
 	    } catch (InterruptedException ex) {            
 	    }
 	        System.out.println("Completed");
+	}
+	private void createReducerDirs(MapReduceSpecification spec)
+	{
+		File mainReduceDir = new File("ReducerData");
+		mainReduceDir.mkdir();
+		for(int i = 0;i<spec.getNoOfReducers();i++)
+		{
+			File subDir = new File("ReducerData"+File.separator+"Reducer_"+i);
+			subDir.mkdir();
+		}
+				
 	}
 		
 }

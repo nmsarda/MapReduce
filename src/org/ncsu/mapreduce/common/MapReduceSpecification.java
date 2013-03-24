@@ -31,6 +31,7 @@ public class MapReduceSpecification {
 		noOfThreads = 5;
 		minByteSize = 10;	
 		noOfMappers = 3;
+		noOfReducers = 2;
 	}
 	
 	public void setNoOfThreads(int noOfThreads)

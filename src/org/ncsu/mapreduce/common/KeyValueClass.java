@@ -26,6 +26,7 @@ public void setValue(V value) {
 this.value = value;
 }
 
+@SuppressWarnings("unchecked")
 @Override
 public int compareTo(KeyValueClass<K, V> o) {
 	// TODO Auto-generated method stub

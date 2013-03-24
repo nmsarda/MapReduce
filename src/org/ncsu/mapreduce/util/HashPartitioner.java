@@ -1,12 +1,12 @@
 package org.ncsu.mapreduce.util;
 
-public class HashPartitioner<K> implements Partitioner<K> {
+public class HashPartitioner implements Partitioner {
 
 	@Override
-	public int assignPartition(K key,int numReducers) {
+	public int assignPartition(Object string,int numReducers) {
 		
-		int hashCode = key.hashCode();
-		int partition = hashCode%numReducers;
+		int hashCode = string.hashCode();
+		int partition = Math.abs(hashCode)%numReducers;
 		return partition;		
 		
 	}

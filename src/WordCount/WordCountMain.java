@@ -8,6 +8,8 @@ public class WordCountMain {
 	 */
 	public static void main(String[] args) {
 
+		
+		
 		MapReduceSpecification spec = new  MapReduceSpecification();
 		DBConnectionParameters dbConn = new DBConnectionParameters();
 			dbConn.setDbDriver("oracle.jdbc.driver.OracleDriver");
