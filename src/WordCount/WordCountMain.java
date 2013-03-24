@@ -29,7 +29,7 @@ public class WordCountMain {
 			op.setReducerClass("WordCount.Reducer");
 			
 		spec.setNoOfThreads(10);
-		spec.minByteSize(5);
+		spec.minByteSize(1024);
 		spec.setNoOfMappers(2);
 		
 		JobRunner job = new JobRunner();

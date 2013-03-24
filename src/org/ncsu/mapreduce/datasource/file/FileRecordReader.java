@@ -69,4 +69,15 @@ public class FileRecordReader implements RecordReader {
 		}
 		return null;		
 	}
+
+	public void close() {
+		// TODO Auto-generated method stub
+		try {
+			file.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }

@@ -43,6 +43,7 @@ public class MapRunner implements Runnable{
 				e.printStackTrace();
 			}			
 		}
+		frr.close();
 		
 		/*for(int i=0; i < list.size(); i++){
 			KeyValueClass<String, Integer> k = (KeyValueClass<String, Integer>) list.get(i);		

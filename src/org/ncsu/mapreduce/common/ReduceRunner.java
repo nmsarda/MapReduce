@@ -1,6 +1,7 @@
 package org.ncsu.mapreduce.common;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -18,8 +19,8 @@ public class ReduceRunner implements Runnable {
 		this.spec = spec;
 		this.reducerId = reducerId;				
 		String completeFilePath = spec.getMapReduceOutputClass().getOutputFileDirectory() + System.getProperty("file.separator") + "Reducer" + reducerId;
-		/*File subDir = new File(completeFilePath);
-		subDir.mkdir();*/
+		File subDir = new File(spec.getMapReduceOutputClass().getOutputFileDirectory());
+		subDir.mkdir();
 		try {
 			this.fileWriter = new BufferedWriter(new FileWriter(completeFilePath));
 		} catch (IOException e) {

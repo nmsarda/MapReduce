@@ -11,7 +11,9 @@ import java.util.List;
 
 import org.ncsu.mapreduce.common.KeyValueClass;
 import org.ncsu.mapreduce.common.MapReduceSpecification;
-
+/* Creates sorted sublists from the input received from the Mappers
+ * and writes the sorted sublists to the file per Reducer.
+ */
 public class SortWrite {
 	
 	public void createAndSortLists(MapReduceSpecification spec,ArrayList<KeyValueClass<?, ?>> list,int mapperID,int threadID)
