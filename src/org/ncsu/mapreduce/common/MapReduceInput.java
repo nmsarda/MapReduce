@@ -1,15 +1,13 @@
 package org.ncsu.mapreduce.common;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import org.ncsu.mapreduce.datasource.database.DBConnectionParameters;
 import org.ncsu.mapreduce.datasource.file.FileInformation;
-class node{
-	int a;
-	public void tp2(){System.out.println("Hi");}
-}
 
-//import org.ncsu.mapreduce.common.MapReduceInput.node;
+/*
+ * This class specifies all the input specifications for MapReduce framework
+ */
+
+
 public class MapReduceInput {
 
 	private String format;
@@ -26,18 +24,27 @@ public class MapReduceInput {
 		inputFormatClass = null;
 	}
 	
+	/*
+	 * Determines whether input is to be read from file or database
+	 */
 	public String getFormat(){
 		return format;
 	}
-	
+	/*
+	 * user specifies the class which contains the map class
+	 */
 	public Class<?> getMapperClass(){
 		return mapperClass;
 	}
-	
+	/*
+	 * Database table from which data is to be fetched.
+	 */
 	public String getTableName(){
 		return tableName;
 	}
-	
+	/*
+	 * Input file information
+	 */
 	public FileInformation[] getFiles(){
 		return files;
 	}
@@ -73,38 +80,7 @@ public class MapReduceInput {
 	public void setNumberOfFiles(int numberOfFiles){
 		this.numberOfFiles = numberOfFiles;	
 		files = new FileInformation[this.numberOfFiles];
-	}
-	
-	public void temp(Class<?> a){
-		
-			Method a1;
-			try {
-				a1 = a.getDeclaredMethod("tp2");
-				try {
-					//a1.setAccessible(true);
-					Object o1 = a.newInstance();
-					a1.invoke(o1);
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-	}
+	}	
 	
 	public void setDbConnectionParameters(DBConnectionParameters conn){
 		this.conn = conn;

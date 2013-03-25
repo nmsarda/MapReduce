@@ -1,32 +1,19 @@
 package org.ncsu.mapreduce.common;
 
+/*
+ * 
+ * This class determines various specifications required to run MapReduce. This includes
+ * Input and Output specifications.
+ * 
+ */
+
 public class MapReduceSpecification {
-	private int noOfThreads;
-	private int noOfMappers;
-	private int minByteSize;
-	private int noOfReducers;
-	private Class<?> OutputKeyformat;
-	private Class<?> OutputValueformat;
-	private MapReduceInput inp;
-	private MapReduceOutput mapReduceOutputClass; 
-	
-	public Class<?> getOutputKeyformat() {
-		return OutputKeyformat;
-	}
-
-	public void setOutputKeyformat(Class<?> outputKeyformat) {
-		OutputKeyformat = outputKeyformat;
-	}
-
-	public Class<?> getOutputValueformat() {
-		return OutputValueformat;
-	}
-
-	public void setOutputValueformat(Class<?> outputValueformat) {
-		OutputValueformat = outputValueformat;
-	}
-
-
+	private int noOfThreads;  // Determines total number of threads to be used.
+	private int noOfMappers;  // Determines total number of mappers.
+	private int noOfReducers; // Determines total number of reducers.
+	private int minByteSize;  // Determines byte size to be used per split of data	 
+	private MapReduceInput inp; // MapReduceInput object
+	private MapReduceOutput mapReduceOutputClass; // MapReduceOutput object
 	
 	public MapReduceSpecification(){
 		noOfThreads = 5;

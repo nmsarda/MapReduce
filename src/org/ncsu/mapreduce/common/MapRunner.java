@@ -3,13 +3,15 @@ package org.ncsu.mapreduce.common;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-
 import org.ncsu.mapreduce.datasource.file.FileRecordReader;
 import org.ncsu.mapreduce.datasource.file.FileSplitInformation;
 import org.ncsu.mapreduce.util.SortWrite;
 
-public class MapRunner implements Runnable{
-	//Runs the Mapper
+/*
+ * This class runs the map function given by the user.
+ */
+
+public class MapRunner implements Runnable{	
 	
 	private int threadID;
 	private int mapperID;
@@ -23,14 +25,21 @@ public class MapRunner implements Runnable{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void run(){
-		
+	public void run(){		
+		/*
+		 * Input given to the map function is in the form of line by line.
+		 * Splits returned by the inputSplitter is fed to the record reader class.
+		 * RecordReader returns line by line data.
+		 */
 		FileRecordReader frr = new FileRecordReader(split);
 		String temp1;		
 		ArrayList<KeyValueClass<?, ?>> list = null ;
-		System.out.println("ThreadID "+Thread.currentThread().getId());
+		
 		while((temp1=frr.getNext())!=null){
 			try {
+				/*
+				 * Invoke Map function.
+				 */
 				Method map = spec.getMapReduceInput().getMapperClass().getDeclaredMethod("map", String.class);
 				Object o1 = spec.getMapReduceInput().getMapperClass().newInstance();
 				if(list == null)
@@ -44,12 +53,13 @@ public class MapRunner implements Runnable{
 			}			
 		}
 		frr.close();
-		
-		/*for(int i=0; i < list.size(); i++){
-			KeyValueClass<String, Integer> k = (KeyValueClass<String, Integer>) list.get(i);		
 
-		}*/
 		SortWrite sortWrite = new SortWrite();
+		/*
+		 * <Key, Value> returned by the map function is fed in a list.
+		 * Once, the mapper completes processing of each split, 
+		 * the list is sorted and hashed by sortWrite class
+		 */
 		sortWrite.createAndSortLists(spec, list,mapperID,threadID);
 	}
 	

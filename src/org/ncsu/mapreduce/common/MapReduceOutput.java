@@ -1,5 +1,9 @@
 package org.ncsu.mapreduce.common;
 
+/*
+ * This class specifies all the output specifications for MapReduce framework
+ */
+
 public class MapReduceOutput {
 	
 	private String outputFileDirectory;

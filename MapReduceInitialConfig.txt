@@ -1,0 +1,14 @@
+Number Of Threads=5
+Number of Mappers=10
+Number of Reducers=3
+Minimum split size (in bytes)=10240
+dbDriver=oracle.jdbc.driver.OracleDriver
+jdbcURL=jdbc:oracle:thin:@ora.csc.ncsu.edu:1521:orcl
+username=nmsarda
+password=001080892
+Table Name=test
+format=textInput
+Set Mapper Class=WordCount.Mapper
+Set Number Of Files=1
+Output File Directory=Reducer
+Reducer Class =WordCount.Reducer

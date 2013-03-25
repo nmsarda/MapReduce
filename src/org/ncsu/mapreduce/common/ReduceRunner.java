@@ -10,6 +10,11 @@ import java.util.ArrayList;
 
 import org.ncsu.mapreduce.datasource.file.FileReaderAtReducer;
 
+/*
+ *  This runs the reduce function provided by the user. 
+ */
+
+
 public class ReduceRunner implements Runnable {
 	
 	private int reducerId;
@@ -34,6 +39,15 @@ public class ReduceRunner implements Runnable {
 		String currentKey = "", line;
 		
 		ArrayList<String> valueList = null;
+		
+		/*
+		 * Each mapper emits data in individual reducer files.
+		 * FileReaderAtReducer provides an iterator over those files such that it returns
+		 * the record with the minimum key value. Till the time that class returns the same
+		 * key, ReduceRunner collates it in a single list. When a new key comes, ReduceRunner
+		 * invokes reduce function
+		 */
+		
 		while((line = fileReader.getNext())!= null){
 			System.out.println("Reducer "+reducerId + " - " + line);
 			key = line.split(" ");

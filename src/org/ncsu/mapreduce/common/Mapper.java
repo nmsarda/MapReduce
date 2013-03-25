@@ -1,7 +1,13 @@
 package org.ncsu.mapreduce.common;
 
-public interface Mapper {
+import java.util.ArrayList;
+
+/*
+ * User's class which implements map method must inherit this class. 
+ */
+
+public interface Mapper<K extends Comparable<K>, V>  {
 	
-	public void Map(Object mapInput);
+	public ArrayList<KeyValueClass<K, V>> map(K mapInput);
 
 }

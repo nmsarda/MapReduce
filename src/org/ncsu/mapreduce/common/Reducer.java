@@ -1,6 +1,11 @@
 package org.ncsu.mapreduce.common;
 
-public interface Reducer {
-	public void Reduce();
+import java.util.ArrayList;
 
+/*
+ * User's class which implements reduce method must inherit this class. 
+ */
+
+public interface Reducer {
+	public String Reduce(String key, ArrayList<String> values);
 }

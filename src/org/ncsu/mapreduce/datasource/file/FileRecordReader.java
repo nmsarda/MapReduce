@@ -2,7 +2,7 @@ package org.ncsu.mapreduce.datasource.file;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import org.ncsu.mapreduce.common.RecordReader;
+
 /* Reads the records from the file. Reading is done as per the following scheme
  * Continue reading till the split size and continue reading till the 
  * next newline.

@@ -1,37 +1,99 @@
 package WordCount;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import org.ncsu.mapreduce.common.*;
 import org.ncsu.mapreduce.datasource.database.DBConnectionParameters;
 public class WordCountMain {
-
-	/**
-	 * @param args
-	 */
+	
 	public static void main(String[] args) {
-
-		
 		
 		MapReduceSpecification spec = new  MapReduceSpecification();
-		DBConnectionParameters dbConn = new DBConnectionParameters();
-			dbConn.setDbDriver("oracle.jdbc.driver.OracleDriver");
-			dbConn.setJdbcURL("jdbc:oracle:thin:@ora.csc.ncsu.edu:1521:orcl");
-			dbConn.setUserName("nmsarda");
-			dbConn.setPassword("001080892");
-		
-		MapReduceInput inp = spec.add_input();		
-			inp.setTableName("test");
-			inp.setMapperClass("WordCount.Mapper");
-			inp.setFormat("textinput");
-			inp.setDbConnectionParameters(dbConn);
-			inp.setNumberOfFiles(1);
-		
+		MapReduceInput inp = spec.add_input();
 		MapReduceOutput op = spec.output();
-			op.setOutputFileDirectory("Reducer");
-			op.setReducerClass("WordCount.Reducer");
+		DBConnectionParameters dbConn = new DBConnectionParameters();
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader("MapReduceInitialConfig.txt"));			
+			int count = -1;
+			String line;
+			while((line=br.readLine())!=null){
+				count++;
+				line=line.split("=")[1];
+				if(line.equals("")){
+					continue;
+				}
+				switch(count){
+				case 0:{					
+					spec.setNoOfThreads(Integer.parseInt(line));
+					continue;
+				}
+				case 1:{
+					spec.setNoOfMappers(Integer.parseInt(line));
+					continue;
+				}
+				case 2:{
+					spec.setNoOfReducers(Integer.parseInt(line));
+					continue;
+				}
+				case 3:{
+					spec.minByteSize(Integer.parseInt(line));
+					continue;
+				}
+				case 4:{
+					
+					dbConn.setDbDriver(line);
+					continue;					
+				}
+				case 5:{
+					dbConn.setJdbcURL(line);
+					continue;
+				}
+				case 6:{					
+					dbConn.setUserName(line);
+					continue;					
+				}
+				case 7:{
+					dbConn.setPassword(line);
+					inp.setDbConnectionParameters(dbConn);
+					continue;
+				}
+				case 8:{							
+					inp.setTableName(line);
+					continue;										
+				}
+				case 9:{
+					inp.setFormat(line);
+					continue;
+				}
+				case 10:{					
+					inp.setMapperClass(line);
+					continue;
+				}
+				case 11:{
+					inp.setNumberOfFiles(Integer.parseInt(line));
+					continue;
+				}
+				case 12:{
+					op.setOutputFileDirectory("Reducer");
+					continue;
+				}
+				case 13:{
+					op.setReducerClass("WordCount.Reducer");
+					continue;
+				}
+				}
+			}
 			
-		spec.setNoOfThreads(10);
-		spec.minByteSize(1024);
-		spec.setNoOfMappers(2);
-		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		JobRunner job = new JobRunner();
 		job.run(spec);
 		System.out.println(spec.getMapReduceInput().getFiles()[0].getFileSize());

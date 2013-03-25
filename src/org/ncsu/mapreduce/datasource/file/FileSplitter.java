@@ -2,7 +2,6 @@ package org.ncsu.mapreduce.datasource.file;
 
 import java.util.ArrayList;
 
-import org.ncsu.mapreduce.common.InputSplit;
 import org.ncsu.mapreduce.common.MapReduceSpecification;
 /* Splits the input files into chunks as per as the size given by the user.
  * 

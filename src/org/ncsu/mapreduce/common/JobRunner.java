@@ -13,7 +13,12 @@ import org.ncsu.mapreduce.datasource.file.FileSplitInformation;
 import org.ncsu.mapreduce.datasource.file.FileSplitter;
 
 public class JobRunner {
-	
+/*
+ * 
+ * This is where the MapReduce framework kicks in. This is the master Node.
+ * It allocates mappers and reducers their work. 
+ * 	
+ */
 	@SuppressWarnings("unchecked")
 	public void run(MapReduceSpecification spec){
 		System.out.println("In JobRunner!");
@@ -24,6 +29,11 @@ public class JobRunner {
 		if((temp = spec.getMapReduceInput().getInputFormatClass()) != null){
 			//User defined InputFormat Class			
 			try {
+				/*
+				 * 
+				 * Getting user specified getSplits class through Java Reflection
+				 * 
+				 */
 				Method inputSplit = temp.getDeclaredMethod("getSplits", MapReduceSpecification.class);
 				Object o1 = temp.newInstance();
 				splits = (ArrayList<FileSplitInformation>) inputSplit.invoke(o1, spec);
@@ -32,25 +42,40 @@ public class JobRunner {
 				e.printStackTrace();
 			}
 		}
-		else{
+		else{	
+			//if user has not specified any InputFormat Class, default splitter is used.
 			
-			splits = (new FileSplitter()).getSplits(spec);
+			/*
+			 * Gets the different splits from getSplits and stores it in a arraylist
+			 */
+			splits = (new FileSplitter()).getSplits(spec); 
 		}
 		createReducerDirs(spec);
+		
+		/*
+		 * 
+		 * After the spliiting is done, now time for mappers to run.
+		 * Thread Pool is created with number of threads equal to the number of mappers.
+		 * Threads are then reused.
+		 * Each Thread executes the map function
+		 */
 		ExecutorService executor = Executors.newFixedThreadPool((int)spec.getNoOfMappers());			
 		for(int i =0, k=0; i < splits.size(); i++, k = (k+1)%(int)spec.getNoOfMappers()){			
 			executor.submit(new MapRunner(spec, splits.get(i), i, k)); // Creates new Thread for MapRunner
 		}
-		executor.shutdown();
+		executor.shutdown(); //Stop accepting new tasks.
 		try {
-	           executor.awaitTermination(1, TimeUnit.DAYS); // waits for all threads to complete
+				/*
+				 * waits for all threads to complete 
+				 */
+	           executor.awaitTermination(1, TimeUnit.DAYS); 
 	    } catch (InterruptedException ex) {            
 	    }
 	        System.out.println("Completed");
 	    
 	    executor = Executors.newFixedThreadPool((int)spec.getNoOfReducers());
 	    for(int i =0; i < (int)spec.getNoOfReducers(); i++){			
-			executor.submit(new ReduceRunner(spec, i)); // Creates new Thread for MapRunner
+			executor.submit(new ReduceRunner(spec, i)); // Creates new Thread for ReducerRunner
 		}
 		executor.shutdown();
 		try {
