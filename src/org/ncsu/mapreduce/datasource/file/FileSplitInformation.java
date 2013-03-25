@@ -2,7 +2,9 @@ package org.ncsu.mapreduce.datasource.file;
 
 import org.ncsu.mapreduce.common.MapReduceSpecification;
 
-// Will contain split information for each file
+/* This class contains the information about the different splits
+ * 
+ */
 public class FileSplitInformation {
 	
 	private FileInformation fileInfo;

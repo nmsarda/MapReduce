@@ -1,7 +1,9 @@
 package org.ncsu.mapreduce.datasource.file;
 
 import java.io.File;
-
+/* Stores the information of the input files provided by the user
+ * 
+ */
 public class FileInformation {
 
 	private String filePath;

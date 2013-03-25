@@ -1,5 +1,7 @@
 package org.ncsu.mapreduce.util;
-
+/* Custom class to manage logs 
+ * 
+ */
 public class Logger {
 	
 	private static Logger logger=null;

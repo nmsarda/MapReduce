@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+/* The class which connects to the database.
+ * 
+ */
 
 public class DBConnectionManager {
 	
@@ -28,7 +30,9 @@ public class DBConnectionManager {
 			e.printStackTrace();
 		}
 	}
-	
+	/* Retrieve the contents from a table specified by the user
+	 * 
+	 */
 	public ResultSet executeSelect(String tablename)
 	{
 		ResultSet result=null;

@@ -3,7 +3,10 @@ package org.ncsu.mapreduce.datasource.file;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import org.ncsu.mapreduce.common.RecordReader;
-
+/* Reads the records from the file. Reading is done as per the following scheme
+ * Continue reading till the split size and continue reading till the 
+ * next newline.
+ */
 public class FileRecordReader implements RecordReader {
 	private long currentBytePosition; 
 	private FileSplitInformation split;
@@ -22,6 +25,12 @@ public class FileRecordReader implements RecordReader {
 	}
 	
 	@Override
+	/* Records are read in such a manner that each mapper at the beginning of
+	 * the read considers the following:
+	 * 1) If this byte has been read by a different mapper. This is done by
+	 * proceeding to the next newline from the split start.
+	 */
+	
 	public String getNext(){
 		if(currentBytePosition >= split.getStart() + split.getLength())
 			return null;
@@ -69,7 +78,9 @@ public class FileRecordReader implements RecordReader {
 		}
 		return null;		
 	}
-
+	/* Close the input file.
+	 * 
+	 */
 	public void close() {
 		// TODO Auto-generated method stub
 		try {

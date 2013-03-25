@@ -8,7 +8,9 @@ import java.sql.SQLException;
 
 import org.ncsu.mapreduce.common.MapReduceSpecification;
 import org.ncsu.mapreduce.datasource.database.DBConnectionManager;
-
+/* Gets the data from the database and creates input files to be read by
+ * the mappers.
+ */
 public class CreateInputFiles {
 
 	private MapReduceSpecification spec;	
@@ -32,16 +34,12 @@ public class CreateInputFiles {
 					}
 					fileName = file;
 					File newFile = new File(fileName);
-					newFile.createNewFile();
+					newFile.createNewFile(); //create a new file
 					fw = new FileWriter(newFile.getAbsoluteFile());					
 					FileInformation fileInfo = new FileInformation(newFile.getAbsoluteFile().toString(), fileName);
-					spec.getMapReduceInput().setFiles(fileInfo);			
+					spec.getMapReduceInput().setFiles(fileInfo); //set the input file information to the MapReduceSpecification object			
 				}
 				String t1 = result.getString("CONTENT");				
-				//t1 = t1.replaceAll("\n", System.getProperty("line.separator"));	
-				//System.setProperty("line.separator" ,"\n");
-				//t1 = t1.replaceAll("\\r\\n|\\r|\\n", "\n");
-				//t1 = t1.replaceAll("\\n", "\n");//System.getProperty("line.separator"));
 				fw.write(t1);								
 			}			
 			fw.close();

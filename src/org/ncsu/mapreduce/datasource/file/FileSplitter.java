@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import org.ncsu.mapreduce.common.InputSplit;
 import org.ncsu.mapreduce.common.MapReduceSpecification;
-
+/* Splits the input files into chunks as per as the size given by the user.
+ * 
+ */
 public class FileSplitter implements InputSplit{
 
 	private ArrayList<FileSplitInformation> fileSplitInformation;
@@ -17,12 +19,17 @@ public class FileSplitter implements InputSplit{
 		int filesSplit = 0;
 		long totalSize = 0;
 		FileInformation[] fileInformation = spec.getMapReduceInput().getFiles();
+		/* Get the total size of the input */
 		while(filesSplit < fileInformation.length)
 		{
 			totalSize += fileInformation[filesSplit].getFileSize();
 			filesSplit++;
 		}
 		System.out.println("total size " + totalSize);
+		/* Take the minimum of the split size defined by the user and the
+		 * split size achieved by dividing the total size by the number of mappers.
+		 * This is done so that each mapper acts on smaller splits.
+		 */
 		splitSize = Math.min((long) Math.ceil((double) totalSize/spec.getNoOfMappers()), minSplitSize);
 		filesSplit = 0;
 		while(filesSplit < fileInformation.length)
@@ -38,7 +45,9 @@ public class FileSplitter implements InputSplit{
 		}
 		return fileSplitInformation;
 	}
-	
+	/* Do the logical splits and compute the start and the length of each
+	 * split. 
+	 */
 	private void splitFile(FileInformation fileInformation,long splitSize,MapReduceSpecification spec)
 	{
 		long fileSize = fileInformation.getFileSize();

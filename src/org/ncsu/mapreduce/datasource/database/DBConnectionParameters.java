@@ -1,9 +1,11 @@
 package org.ncsu.mapreduce.datasource.database;
-
+/* This class stores the database connection parameters
+ * 
+ */
 public class DBConnectionParameters {
 	
 	private String jdbcURL;
-	private String dbDriver;
+	private String dbDriver; 
 	private String username;
 	private String password;
 	

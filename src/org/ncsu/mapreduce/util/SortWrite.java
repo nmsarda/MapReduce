@@ -21,7 +21,7 @@ public class SortWrite {
 		int noOfReducers = spec.getNoOfReducers();
 		ArrayList<KeyValueClass<?, ?>>[] reduceLists = new ArrayList[noOfReducers];
 		KeyValueClass<?,?> keyObj;
-		HashPartitioner partition  = new HashPartitioner();
+		Partitioner partition  = new HashPartitioner();
 		int partitionNumber;
 		
 		for(int i = 0;i < noOfReducers;i++)
@@ -31,14 +31,19 @@ public class SortWrite {
 		}
 		for(int i=0; i < list.size(); i++){
 			keyObj = list.get(i);
+			/* Get the partition number from the hash code of the key */
 			partitionNumber = partition.assignPartition(keyObj.getKey(), noOfReducers);
 			reduceLists[partitionNumber].add(keyObj);
 			
 		}
 		for(int i=0; i < list.size(); i++)
+		{
+			/* Remove the objects from the main list */
 			list.remove(i);
+		}
 		for(int i=0;i<noOfReducers;i++)
 		{
+			/* Sort the lists for the reducers */
 			Collections.sort(reduceLists[i]);
 			writeToFile(mapperID,threadID,i,reduceLists[i]);
 		}
@@ -54,6 +59,7 @@ public class SortWrite {
 			while(it.hasNext())
 			{
 				KeyValueClass<String, Integer> obj = it.next();
+				/* Write to the reducer specific file */
 				bwrite.write(obj.getKey()+" "+ obj.getValue());
 				bwrite.newLine();
 		
