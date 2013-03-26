@@ -16,15 +16,16 @@ public class MapReduceSpecification {
 	private MapReduceOutput mapReduceOutputClass; // MapReduceOutput object
 	
 	public MapReduceSpecification(){
-		noOfThreads = 5;
-		minByteSize = 10;	
-		noOfMappers = 3;
-		noOfReducers = 2;
+		noOfThreads = 10;
+		minByteSize = 1024;	
+		noOfMappers = 0;
+		noOfReducers = 0;
 	}
 	
 	public void setNoOfThreads(int noOfThreads)
 	{
-		this.noOfThreads = noOfThreads;				
+		this.noOfThreads = noOfThreads;
+			
 	}
 	
 	public void setNoOfMappers(int noOfMappers)
@@ -78,5 +79,27 @@ public class MapReduceSpecification {
 	
 	public void setMapReduceOutputClass(MapReduceOutput mapReduceOutputClass) {
 		this.mapReduceOutputClass = mapReduceOutputClass;
+	}
+	public void calculateThreads()
+	{
+		if(noOfMappers == 0 && noOfReducers == 0)
+		{
+			setNoOfMappers((int)Math.ceil(0.75*noOfThreads));
+			setNoOfReducers(noOfThreads-noOfMappers);
+		}
+		else if(noOfMappers == 0)
+		{
+			int threads = (int)Math.ceil(noOfReducers/0.25);
+			setNoOfThreads(threads);
+			setNoOfMappers(threads - noOfReducers);
+			
+		}
+		else if(noOfReducers == 0)
+		{
+			int threads = (int)Math.ceil(noOfMappers/0.75);
+			setNoOfThreads(threads);
+			setNoOfReducers(threads - noOfMappers);
+		}
+		System.out.println("Reducers "+noOfReducers + "Mappers" + noOfMappers );
 	}
 }

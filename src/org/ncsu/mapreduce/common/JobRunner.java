@@ -22,6 +22,7 @@ public class JobRunner {
 	@SuppressWarnings("unchecked")
 	public void run(MapReduceSpecification spec){
 		System.out.println("In JobRunner!");
+		spec.calculateThreads();
 		CreateInputFiles setUpFiles = new CreateInputFiles(spec);
 		setUpFiles.createFiles(); // Sets up the input files by reading from database.
 		Class<?> temp;
@@ -82,6 +83,7 @@ public class JobRunner {
 	           executor.awaitTermination(1, TimeUnit.DAYS); // waits for all threads to complete
 	    } catch (InterruptedException ex) {            
 	    }
+		removeReduceDirs(spec);
 	}
 	private void createReducerDirs(MapReduceSpecification spec)
 	{
@@ -93,6 +95,25 @@ public class JobRunner {
 			subDir.mkdir();
 		}
 				
+	}
+	private void removeReduceDirs(MapReduceSpecification spec)
+	{	
+		File mainDir = new File("ReducerData");
+		for(int i = 0;i<spec.getNoOfReducers();i++)
+		{
+			File path = new File("ReducerData"+File.separator+"Reducer_"+i);
+			System.out.println(path);
+			File[] files = path.listFiles();
+			if(files != null)
+			{
+				for(File f: files) 
+				{
+					f.delete();
+				}
+			}
+			path.delete();
+		}
+		mainDir.delete();
 	}
 		
 }
