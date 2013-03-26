@@ -15,7 +15,7 @@ public class WordCountMain {
 		DBConnectionParameters dbConn = new DBConnectionParameters();
 		BufferedReader br = null;
 		try {
-			br = new BufferedReader(new FileReader("MapReduceInitialConfig.txt"));			
+			br = new BufferedReader(new FileReader(args[0]));			
 			int count = -1;
 			String line;
 			while((line=br.readLine())!=null){

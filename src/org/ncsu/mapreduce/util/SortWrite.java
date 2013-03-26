@@ -16,6 +16,7 @@ import org.ncsu.mapreduce.common.MapReduceSpecification;
  */
 public class SortWrite {
 	
+	@SuppressWarnings("unchecked")
 	public void createAndSortLists(MapReduceSpecification spec,ArrayList<KeyValueClass<?, ?>> list,int mapperID,int threadID)
 	{
 		int noOfReducers = spec.getNoOfReducers();
@@ -49,6 +50,7 @@ public class SortWrite {
 		}
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void writeToFile(Integer mapperID,Integer threadID,Integer reducerID,List list)
 	{
 		try {
