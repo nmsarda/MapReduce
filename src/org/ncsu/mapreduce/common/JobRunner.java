@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+
 import org.ncsu.mapreduce.datasource.file.CreateInputFiles;
 import org.ncsu.mapreduce.datasource.file.FileSplitInformation;
 import org.ncsu.mapreduce.datasource.file.FileSplitter;
+import org.ncsu.mapreduce.util.Logger;
 
 public class JobRunner {
 /*
@@ -21,7 +24,11 @@ public class JobRunner {
  */
 	@SuppressWarnings("unchecked")
 	public void run(MapReduceSpecification spec){
-		System.out.println("In JobRunner!");
+		
+		Logger.getLogger().log(Level.FINE,"In JobRunner!");
+		Logger.getLogger().log(Level.INFO,"In JobRunner!");
+		Logger.getLogger().log(Level.WARNING,"In JobRunner!");
+		Logger.getLogger().log(Level.FINEST,"In JobRunner!");
 		spec.calculateThreads();
 		CreateInputFiles setUpFiles = new CreateInputFiles(spec);
 		setUpFiles.createFiles(); // Sets up the input files by reading from database.
@@ -40,7 +47,9 @@ public class JobRunner {
 				splits = (ArrayList<FileSplitInformation>) inputSplit.invoke(o1, spec);
 				
 			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException  e) {				
-				e.printStackTrace();
+				//e.printStackTrace();
+				Logger.getLogger().log(Level.SEVERE,e.toString());
+				
 			}
 		}
 		else{	
@@ -70,7 +79,9 @@ public class JobRunner {
 				 * waits for all threads to complete 
 				 */
 	           executor.awaitTermination(1, TimeUnit.DAYS); 
-	    } catch (InterruptedException ex) {            
+	    } catch (InterruptedException ex) {
+	    	Logger.getLogger().log(Level.SEVERE,ex.toString());
+	    	
 	    }
 	        System.out.println("Completed");
 	    

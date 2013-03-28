@@ -1,5 +1,9 @@
 package org.ncsu.mapreduce.common;
 
+import java.util.logging.Level;
+
+import org.ncsu.mapreduce.util.Logger;
+
 /*
  * This class specifies all the output specifications for MapReduce framework
  */
@@ -22,7 +26,7 @@ public class MapReduceOutput {
 		try {
 			this.reducerClass = Class.forName(reducerClass);
 		} catch (ClassNotFoundException e) {
-			System.out.println("Class with name " + reducerClass + " not found.");
+			Logger.getLogger().log(Level.SEVERE,e.toString());
 		}
 	}
 

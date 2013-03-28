@@ -8,19 +8,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.ncsu.mapreduce.common.KeyValueClass;
 import org.ncsu.mapreduce.common.MapReduceSpecification;
+
 /* Creates sorted sublists from the input received from the Mappers
  * and writes the sorted sublists to the file per Reducer.
  */
 public class SortWrite {
 	
-	@SuppressWarnings("unchecked")
 	public void createAndSortLists(MapReduceSpecification spec,ArrayList<KeyValueClass<?, ?>> list,int mapperID,int threadID)
 	{
 		int noOfReducers = spec.getNoOfReducers();
 		ArrayList<KeyValueClass<?, ?>>[] reduceLists = new ArrayList[noOfReducers];
+		//ArrayList<ArrayList<KeyValueClass<?, ?>>> lists = new ArrayList<ArrayList<KeyValueClass<?, ?>>>();
 		KeyValueClass<?,?> keyObj;
 		Partitioner partition  = new HashPartitioner();
 		int partitionNumber;
@@ -45,22 +47,25 @@ public class SortWrite {
 		for(int i=0;i<noOfReducers;i++)
 		{
 			/* Sort the lists for the reducers */
-			Collections.sort(reduceLists[i]);
+			sortAscending(reduceLists[i]);
 			writeToFile(mapperID,threadID,i,reduceLists[i]);
 		}
 	}
+	public <T extends KeyValueClass<?, ?>> ArrayList<T> sortAscending(ArrayList<T> list){
+	    Collections.sort(list);
+	    return list;
+	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void writeToFile(Integer mapperID,Integer threadID,Integer reducerID,List list)
+	private void writeToFile(Integer mapperID,Integer threadID,Integer reducerID,List<KeyValueClass<?, ?>> list)
 	{
 		try {
 			String fileName = "ReducerData"+File.separator+"Reducer_"+reducerID.toString()+File.separator+"Mapper"+mapperID.toString()+"_"+threadID.toString()+"_"+"Reducer"+reducerID.toString();
 			FileWriter fwrite = new FileWriter(fileName);
 			BufferedWriter bwrite = new BufferedWriter(fwrite);
-			Iterator<KeyValueClass<String,Integer>> it = list.iterator();
+			Iterator<KeyValueClass<?,?>> it = list.iterator();
 			while(it.hasNext())
 			{
-				KeyValueClass<String, Integer> obj = it.next();
+				KeyValueClass<?, ?> obj = it.next();
 				/* Write to the reducer specific file */
 				bwrite.write(obj.getKey()+" "+ obj.getValue());
 				bwrite.newLine();
@@ -71,7 +76,7 @@ public class SortWrite {
 			fwrite.close();			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.getLogger().log(Level.SEVERE,e.getMessage());
 		}
 	}
 

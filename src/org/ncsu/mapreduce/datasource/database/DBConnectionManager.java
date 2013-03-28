@@ -8,6 +8,9 @@ import java.sql.Statement;
 /* The class which connects to the database.
  * 
  */
+import java.util.logging.Level;
+
+import org.ncsu.mapreduce.util.Logger;
 
 public class DBConnectionManager {
 	
@@ -24,10 +27,10 @@ public class DBConnectionManager {
 		}
 		catch (ClassNotFoundException e)
 		{			
-			e.printStackTrace();
+			Logger.getLogger().log(Level.SEVERE,e.toString());
 		}
 		catch (SQLException e) {			
-			e.printStackTrace();
+			Logger.getLogger().log(Level.SEVERE,e.toString());
 		}
 	}
 	/* Retrieve the contents from a table specified by the user
@@ -42,7 +45,7 @@ public class DBConnectionManager {
 		}
 		catch (Exception e)
 		{			
-			e.printStackTrace();
+			Logger.getLogger().log(Level.SEVERE,e.toString());
 		}
 		return result;
 	}
@@ -54,7 +57,7 @@ public class DBConnectionManager {
 			statement.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.getLogger().log(Level.SEVERE,e.getMessage());
 		}
 	}
 

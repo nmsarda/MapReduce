@@ -1,4 +1,7 @@
 package org.ncsu.mapreduce.common;
+
+import java.util.Comparator;
+
 /*
  * 
  * This class stores Key-Value pairs from the map function
@@ -34,4 +37,5 @@ this.value = value;
 }
 
 }
+
 

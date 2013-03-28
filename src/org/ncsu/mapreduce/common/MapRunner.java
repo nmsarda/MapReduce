@@ -3,8 +3,11 @@ package org.ncsu.mapreduce.common;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.logging.Level;
+
 import org.ncsu.mapreduce.datasource.file.FileRecordReader;
 import org.ncsu.mapreduce.datasource.file.FileSplitInformation;
+import org.ncsu.mapreduce.util.Logger;
 import org.ncsu.mapreduce.util.SortWrite;
 
 /*
@@ -34,7 +37,7 @@ public class MapRunner implements Runnable{
 		FileRecordReader frr = new FileRecordReader(split);
 		String temp1;		
 		ArrayList<KeyValueClass<?, ?>> list = null ;
-		
+		Logger.getLogger().log(Level.INFO,"Test");
 		while((temp1=frr.getNext())!=null){
 			try {
 				/*
@@ -49,7 +52,7 @@ public class MapRunner implements Runnable{
 				
 			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Logger.getLogger().log(Level.SEVERE,e.toString());
 			}			
 		}
 		frr.close();

@@ -5,9 +5,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 import org.ncsu.mapreduce.common.MapReduceSpecification;
 import org.ncsu.mapreduce.datasource.database.DBConnectionManager;
+import org.ncsu.mapreduce.util.Logger;
 /* Gets the data from the database and creates input files to be read by
  * the mappers.
  */
@@ -44,9 +46,9 @@ public class CreateInputFiles {
 			}			
 			fw.close();
 		} catch (SQLException e) {			
-			e.printStackTrace();
+			Logger.getLogger().log(Level.SEVERE,e.getMessage());
 		} catch (IOException e) {			
-			e.printStackTrace();
+			Logger.getLogger().log(Level.SEVERE,e.getMessage());
 		}		
 	}
 	

@@ -2,6 +2,9 @@ package org.ncsu.mapreduce.datasource.file;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.logging.Level;
+
+import org.ncsu.mapreduce.util.Logger;
 
 /* Reads the records from the file. Reading is done as per the following scheme
  * Continue reading till the split size and continue reading till the 
@@ -20,7 +23,7 @@ public class FileRecordReader implements RecordReader {
 		try {			
 			file = new RandomAccessFile(split.getFileInfo().getFileName(), "r");			
 		} catch (IOException e) {			
-			e.printStackTrace();
+			Logger.getLogger().log(Level.SEVERE,e.getMessage());
 		}
 	}
 	
@@ -74,7 +77,7 @@ public class FileRecordReader implements RecordReader {
 			currentBytePosition = file.getFilePointer();
 			return temp;
 		} catch (IOException e) {				
-			e.printStackTrace();
+			Logger.getLogger().log(Level.SEVERE,e.getMessage());
 		}
 		return null;		
 	}
@@ -87,7 +90,7 @@ public class FileRecordReader implements RecordReader {
 			file.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.getLogger().log(Level.SEVERE,e.getMessage());
 		}
 		
 	}

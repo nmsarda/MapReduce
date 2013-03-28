@@ -1,7 +1,10 @@
 package org.ncsu.mapreduce.common;
 
+import java.util.logging.Level;
+
 import org.ncsu.mapreduce.datasource.database.DBConnectionParameters;
 import org.ncsu.mapreduce.datasource.file.FileInformation;
+import org.ncsu.mapreduce.util.Logger;
 
 /*
  * This class specifies all the input specifications for MapReduce framework
@@ -65,7 +68,7 @@ public class MapReduceInput {
 		try {
 			this.mapperClass = Class.forName(mapperClass);
 		} catch (ClassNotFoundException e) {
-			System.out.println("Class with name " + mapperClass + " not found.");
+			Logger.getLogger().log(Level.SEVERE,e.toString());
 		}
 	}
 	
@@ -90,7 +93,7 @@ public class MapReduceInput {
 		try {
 			this.inputFormatClass = Class.forName(inputFormatClass);
 		} catch (ClassNotFoundException e) {
-			System.out.println("Class with name " + inputFormatClass + " not found.");
+			Logger.getLogger().log(Level.SEVERE,e.toString());
 		}
 	}
 }

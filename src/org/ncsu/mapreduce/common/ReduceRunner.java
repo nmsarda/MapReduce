@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import org.ncsu.mapreduce.datasource.file.FileReaderAtReducer;
+import org.ncsu.mapreduce.util.Logger;
 
 /*
  *  This runs the reduce function provided by the user. 
@@ -29,7 +31,7 @@ public class ReduceRunner implements Runnable {
 		try {
 			this.fileWriter = new BufferedWriter(new FileWriter(completeFilePath));
 		} catch (IOException e) {
-			e.printStackTrace();
+			Logger.getLogger().log(Level.SEVERE,e.toString());
 		}			
 	}
 	
@@ -67,7 +69,7 @@ public class ReduceRunner implements Runnable {
 					String value = (String) reduce.invoke(o1, currentKey, valueList);
 					writeInFile(currentKey, value);
 				} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {					
-					e.printStackTrace();
+					Logger.getLogger().log(Level.SEVERE,e.toString());
 				}
 				currentKey = key[0];
 				valueList = new ArrayList<String>();
@@ -81,13 +83,13 @@ public class ReduceRunner implements Runnable {
 				String value = (String) reduce.invoke(o1, currentKey, valueList);
 				writeInFile(currentKey, value);
 			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {					
-				e.printStackTrace();
+				Logger.getLogger().log(Level.SEVERE,e.toString());
 			}
 		}
 		try {
 			fileWriter.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Logger.getLogger().log(Level.SEVERE,e.toString());
 		}
 	}
 	
@@ -96,7 +98,7 @@ public class ReduceRunner implements Runnable {
 			fileWriter.write(key + " " + value);
 			fileWriter.newLine();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Logger.getLogger().log(Level.SEVERE,e.toString());
 		}
 	}
 
