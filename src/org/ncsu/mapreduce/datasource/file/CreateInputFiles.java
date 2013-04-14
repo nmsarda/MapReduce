@@ -30,7 +30,7 @@ public class CreateInputFiles {
 			FileWriter fw = null;
 			while(result.next()){
 				String file = result.getString("FILENAME");
-				if(!fileName.equalsIgnoreCase(file)){
+				if(!isFilePresent(fileName)){
 					if(fw != null){						
 						fw.close();
 					}
@@ -50,6 +50,19 @@ public class CreateInputFiles {
 		} catch (IOException e) {			
 			Logger.getLogger().log(Level.SEVERE,e.getMessage());
 		}		
+	}
+	private boolean isFilePresent(String fileName)
+	{
+		FileInformation fileInfo[] = spec.getMapReduceInput().getFiles();
+		for(int i=0;i< fileInfo.length;i++)
+		{
+			if(fileName.equalsIgnoreCase(fileInfo[i].getFileName()))
+			{
+				return true;
+			}
+		}
+		return false;
+	
 	}
 	
 }
