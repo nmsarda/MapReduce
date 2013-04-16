@@ -41,7 +41,7 @@ public class DBConnectionManager {
 		ResultSet result=null;
 		try
 		{
-			result = statement.executeQuery("SELECT * FROM "+tablename);//Retrieves data from the supplied table name
+			result = statement.executeQuery("SELECT * FROM "+tablename + " ORDER BY FILENAME");//Retrieves data from the supplied table name
 		}
 		catch (Exception e)
 		{			

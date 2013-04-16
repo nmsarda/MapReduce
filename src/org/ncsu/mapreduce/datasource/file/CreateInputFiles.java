@@ -30,16 +30,19 @@ public class CreateInputFiles {
 			FileWriter fw = null;
 			while(result.next()){
 				String file = result.getString("FILENAME");
-				if(!isFilePresent(fileName)){
-					if(fw != null){						
+			//	if(!isFilePresent(fileName)){
+				if(!fileName.equalsIgnoreCase(file)){
+				if(fw != null){						
 						fw.close();
 					}
+				System.out.println("\nhi");
 					fileName = file;
 					File newFile = new File(fileName);
 					newFile.createNewFile(); //create a new file
 					fw = new FileWriter(newFile.getAbsoluteFile());					
 					FileInformation fileInfo = new FileInformation(newFile.getAbsoluteFile().toString(), fileName);
 					spec.getMapReduceInput().setFiles(fileInfo); //set the input file information to the MapReduceSpecification object			
+					
 				}
 				String t1 = result.getString("CONTENT");				
 				fw.write(t1);								
@@ -51,7 +54,7 @@ public class CreateInputFiles {
 			Logger.getLogger().log(Level.SEVERE,e.getMessage());
 		}		
 	}
-	private boolean isFilePresent(String fileName)
+	/*private boolean isFilePresent(String fileName)
 	{
 		FileInformation fileInfo[] = spec.getMapReduceInput().getFiles();
 		for(int i=0;i< fileInfo.length;i++)
@@ -63,6 +66,6 @@ public class CreateInputFiles {
 		}
 		return false;
 	
-	}
+	}*/
 	
 }

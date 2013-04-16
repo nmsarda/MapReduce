@@ -95,8 +95,10 @@ public class WordCountMain {
 			e.printStackTrace();
 		}
 		JobRunner job = new JobRunner();
+		long start = System.nanoTime();		
 		job.run(spec);
-		System.out.println(spec.getMapReduceInput().getFiles()[0].getFileSize());
+		long end =  System.nanoTime();		
+		System.out.println("\n Time taken (millisecs) : " + (end-start)/1000000);
 		System.out.println("Done!");
 	}
 
