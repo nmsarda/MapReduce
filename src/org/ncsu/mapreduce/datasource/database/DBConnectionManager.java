@@ -41,13 +41,45 @@ public class DBConnectionManager {
 		ResultSet result=null;
 		try
 		{
-			result = statement.executeQuery("SELECT * FROM "+tablename + " ORDER BY FILENAME");//Retrieves data from the supplied table name
+			result = statement.executeQuery("SELECT * FROM "+tablename);//Retrieves data from the supplied table name
 		}
 		catch (Exception e)
 		{			
 			Logger.getLogger().log(Level.SEVERE,e.toString());
 		}
 		return result;
+	}
+	
+	public int getNoOfFiles(String tablename)
+	{
+		ResultSet result=null;
+		int files=0;
+		try
+		{
+			result = statement.executeQuery("SELECT count(unique filename) AS count FROM "+tablename);
+			System.out.println(tablename+"me");
+			while(result.next())
+			{
+				
+				files = result.getInt("count");
+				System.out.println("here "+files);
+			}
+			
+			
+		}
+		catch(Exception e)
+		{
+			Logger.getLogger().log(Level.SEVERE,e.toString());
+			e.printStackTrace();
+			
+		}
+		try {
+			result.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return files;
 	}
 	
 	public void close()

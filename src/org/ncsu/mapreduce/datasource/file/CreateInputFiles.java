@@ -24,29 +24,36 @@ public class CreateInputFiles {
 	public void createFiles(){
 		
 		DBConnectionManager dbConn = new DBConnectionManager(spec.getMapReduceInput().getDbConnectionParameters());
+		int noOfFiles = dbConn.getNoOfFiles(spec.getMapReduceInput().getTableName());
+		spec.getMapReduceInput().setNumberOfFiles(noOfFiles);
 		ResultSet result = dbConn.executeSelect(spec.getMapReduceInput().getTableName());
-		String fileName = "";		
+		String fileName = "";	
+		FileInformation fileInfo = null;
 		try {			
 			FileWriter fw = null;
 			while(result.next()){
 				String file = result.getString("FILENAME");
 			//	if(!isFilePresent(fileName)){
-				if(!fileName.equalsIgnoreCase(file)){
+				//if(!fileName.equalsIgnoreCase(file)){
 				if(fw != null){						
 						fw.close();
 					}
 				System.out.println("\nhi");
 					fileName = file;
 					File newFile = new File(fileName);
-					newFile.createNewFile(); //create a new file
-					fw = new FileWriter(newFile.getAbsoluteFile());					
-					FileInformation fileInfo = new FileInformation(newFile.getAbsoluteFile().toString(), fileName);
-					spec.getMapReduceInput().setFiles(fileInfo); //set the input file information to the MapReduceSpecification object			
+					if(!newFile.exists())
+						{newFile.createNewFile(); //create a new file
+							fileInfo = new FileInformation(newFile.getAbsoluteFile().toString(), fileName);
+							spec.getMapReduceInput().setFiles(fileInfo); //set the input file information to the MapReduceSpecification object
+						}
+					fw = new FileWriter(newFile.getAbsoluteFile(), true);					
+					String t1 = result.getString("CONTENT");				
+					fw.write(t1);	
+								
 					
 				}
-				String t1 = result.getString("CONTENT");				
-				fw.write(t1);								
-			}			
+											
+			//}			
 			fw.close();
 		} catch (SQLException e) {			
 			Logger.getLogger().log(Level.SEVERE,e.getMessage());

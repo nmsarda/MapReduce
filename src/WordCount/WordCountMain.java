@@ -72,7 +72,7 @@ public class WordCountMain {
 					continue;
 				}
 				case 11:{
-					inp.setNumberOfFiles(Integer.parseInt(line));
+					//inp.setNumberOfFiles(Integer.parseInt(line));
 					continue;
 				}
 				case 12:{

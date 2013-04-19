@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import org.ncsu.mapreduce.datasource.file.CreateInputFiles;
+import org.ncsu.mapreduce.datasource.file.FileInformation;
 import org.ncsu.mapreduce.datasource.file.FileSplitInformation;
 import org.ncsu.mapreduce.datasource.file.FileSplitter;
 import org.ncsu.mapreduce.util.Logger;
@@ -94,6 +95,7 @@ public class JobRunner {
 	           executor.awaitTermination(1, TimeUnit.DAYS); // waits for all threads to complete
 	    } catch (InterruptedException ex) {            
 	    }
+		removeInputFiles(spec);
 		removeReduceDirs(spec);
 	}
 	private void createReducerDirs(MapReduceSpecification spec)
@@ -125,6 +127,16 @@ public class JobRunner {
 			path.delete();
 		}
 		mainDir.delete();
+	}
+	
+	private void removeInputFiles(MapReduceSpecification spec)
+	{
+		FileInformation fileInfo[] = spec.getMapReduceInput().getFiles();
+		for(int i=0;i<fileInfo.length;i++)
+		{
+			File file = new File(fileInfo[i].getFileName());
+			file.delete();
+		}
 	}
 		
 }
