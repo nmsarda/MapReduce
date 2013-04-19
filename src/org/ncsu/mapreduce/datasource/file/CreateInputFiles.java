@@ -37,8 +37,7 @@ public class CreateInputFiles {
 				//if(!fileName.equalsIgnoreCase(file)){
 				if(fw != null){						
 						fw.close();
-					}
-				System.out.println("\nhi");
+					}				
 					fileName = file;
 					File newFile = new File(fileName);
 					if(!newFile.exists())
@@ -47,7 +46,8 @@ public class CreateInputFiles {
 							spec.getMapReduceInput().setFiles(fileInfo); //set the input file information to the MapReduceSpecification object
 						}
 					fw = new FileWriter(newFile.getAbsoluteFile(), true);					
-					String t1 = result.getString("CONTENT");				
+					String t1 = result.getString("CONTENT");
+					t1.replaceAll("\n", System.getProperty("line.separator"));
 					fw.write(t1);	
 								
 					

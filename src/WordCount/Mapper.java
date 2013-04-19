@@ -10,7 +10,7 @@ public class Mapper {
 	
 	public ArrayList<KeyValueClass<String, Integer>> map(String t){
 		ArrayList<KeyValueClass<String, Integer>> list = new ArrayList<>();
-		System.out.println("Inside Map!");
+		
 		String[] temp = t.split(" ");
 		for(int i=0; i<temp.length; i++){
 			Scanner word = new Scanner(temp[i]);

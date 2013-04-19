@@ -51,7 +51,7 @@ public class ReduceRunner implements Runnable {
 		 */
 		
 		while((line = fileReader.getNext())!= null){
-			System.out.println("Reducer "+reducerId + " - " + line);
+			
 			key = line.split(" ");
 			if(currentKey.equals("")){
 				valueList = new ArrayList<String>();

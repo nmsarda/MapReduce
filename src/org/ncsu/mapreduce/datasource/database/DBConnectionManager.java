@@ -56,15 +56,12 @@ public class DBConnectionManager {
 		int files=0;
 		try
 		{
-			result = statement.executeQuery("SELECT count(unique filename) AS count FROM "+tablename);
-			System.out.println(tablename+"me");
+			result = statement.executeQuery("SELECT count(unique filename) AS count FROM "+tablename);			
 			while(result.next())
-			{
-				
+			{				
 				files = result.getInt("count");
-				System.out.println("here "+files);
 			}
-			
+			System.out.println("\nNumber of Files in the input : "+ files);
 			
 		}
 		catch(Exception e)

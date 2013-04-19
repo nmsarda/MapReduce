@@ -1,7 +1,7 @@
 Number Of Threads=5
-Number of Mappers=10
+Number of Mappers=5
 Number of Reducers=1
-Minimum split size (in bytes)=1024
+Minimum split size (in bytes)=2048
 dbDriver=oracle.jdbc.driver.OracleDriver
 jdbcURL=jdbc:oracle:thin:@ora.csc.ncsu.edu:1521:orcl
 username=nmsarda

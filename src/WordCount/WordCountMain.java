@@ -98,8 +98,8 @@ public class WordCountMain {
 		long start = System.nanoTime();		
 		job.run(spec);
 		long end =  System.nanoTime();		
-		System.out.println("\n Time taken (millisecs) : " + (end-start)/1000000);
-		System.out.println("Done!");
+		System.out.println("\nTime taken (millisecs) : " + (end-start)/1000000);
+		System.out.println("\nDone!");
 	}
 
 }

@@ -32,6 +32,7 @@ public class JobRunner {
 		Logger.getLogger().log(Level.FINEST,"In JobRunner!");
 		spec.calculateThreads();
 		CreateInputFiles setUpFiles = new CreateInputFiles(spec);
+		System.out.println("\nSetting up Input files from database. \n");
 		setUpFiles.createFiles(); // Sets up the input files by reading from database.
 		Class<?> temp;
 		ArrayList<FileSplitInformation> splits = null;
@@ -45,6 +46,7 @@ public class JobRunner {
 				 */
 				Method inputSplit = temp.getDeclaredMethod("getSplits", MapReduceSpecification.class);
 				Object o1 = temp.newInstance();
+				
 				splits = (ArrayList<FileSplitInformation>) inputSplit.invoke(o1, spec);
 				
 			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException  e) {				
@@ -59,6 +61,7 @@ public class JobRunner {
 			/*
 			 * Gets the different splits from getSplits and stores it in a arraylist
 			 */
+			System.out.println("\nCalculating input splits\n");
 			splits = (new FileSplitter()).getSplits(spec); 
 		}
 		createReducerDirs(spec);
@@ -70,6 +73,7 @@ public class JobRunner {
 		 * Threads are then reused.
 		 * Each Thread executes the map function
 		 */
+		System.out.println("\nMap Phase Starting");
 		ExecutorService executor = Executors.newFixedThreadPool((int)spec.getNoOfMappers());			
 		for(int i =0, k=0; i < splits.size(); i++, k = (k+1)%(int)spec.getNoOfMappers()){			
 			executor.submit(new MapRunner(spec, splits.get(i), i, k)); // Creates new Thread for MapRunner
@@ -84,8 +88,8 @@ public class JobRunner {
 	    	Logger.getLogger().log(Level.SEVERE,ex.toString());
 	    	
 	    }
-	        System.out.println("Completed");
-	    
+	        System.out.println("\nMap Phase Completed");
+	        System.out.println("\nReduce Phase Starting");
 	    executor = Executors.newFixedThreadPool((int)spec.getNoOfReducers());
 	    for(int i =0; i < (int)spec.getNoOfReducers(); i++){			
 			executor.submit(new ReduceRunner(spec, i)); // Creates new Thread for ReducerRunner
@@ -95,6 +99,9 @@ public class JobRunner {
 	           executor.awaitTermination(1, TimeUnit.DAYS); // waits for all threads to complete
 	    } catch (InterruptedException ex) {            
 	    }
+		
+		System.out.println("\nReduce Phase Completed");
+		
 		removeInputFiles(spec);
 		removeReduceDirs(spec);
 	}
@@ -114,8 +121,7 @@ public class JobRunner {
 		File mainDir = new File("ReducerData");
 		for(int i = 0;i<spec.getNoOfReducers();i++)
 		{
-			File path = new File("ReducerData"+File.separator+"Reducer_"+i);
-			System.out.println(path);
+			File path = new File("ReducerData"+File.separator+"Reducer_"+i);			
 			File[] files = path.listFiles();
 			if(files != null)
 			{

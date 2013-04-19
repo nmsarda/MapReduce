@@ -100,6 +100,6 @@ public class MapReduceSpecification {
 			setNoOfThreads(threads);
 			setNoOfReducers(threads - noOfMappers);
 		}
-		System.out.println("Reducers "+noOfReducers + "Mappers" + noOfMappers );
+		System.out.println("Reducers "+noOfReducers + " Mappers" + noOfMappers );
 	}
 }
