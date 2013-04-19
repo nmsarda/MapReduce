@@ -24,7 +24,7 @@ public class FileSplitter implements InputSplit{
 			totalSize += fileInformation[filesSplit].getFileSize();
 			filesSplit++;
 		}
-		System.out.println("Total size of input: " + totalSize + " kb\n");
+		System.out.println("Total size of input: " + totalSize + " bytes\n");
 		/* Take the minimum of the split size defined by the user and the
 		 * split size achieved by dividing the total size by the number of mappers.
 		 * This is done so that each mapper acts on smaller splits.
