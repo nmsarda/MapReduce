@@ -18,6 +18,7 @@ public class MapReduceInput {
 	private String tableName;
 	private FileInformation[] files; //change
 	private DBConnectionParameters conn;
+	private String inputDirectory=null;
 	private int numberOfFiles;
 	private int index;
 	private Class<?> inputFormatClass;	
@@ -95,5 +96,14 @@ public class MapReduceInput {
 		} catch (ClassNotFoundException e) {
 			Logger.getLogger().log(Level.SEVERE,e.toString());
 		}
+	}
+
+	public String getInputDirectory() {
+		// TODO Auto-generated method stub
+		return inputDirectory;
+	}
+	public void setInputDirectory(String inputDirectory) {
+		// TODO Auto-generated method stub
+		this.inputDirectory = inputDirectory;
 	}
 }

@@ -83,6 +83,10 @@ public class WordCountMain {
 					op.setReducerClass("WordCount.Reducer");
 					continue;
 				}
+				case 14:{
+					inp.setInputDirectory(line);
+					continue;
+				}
 				}
 			}
 			

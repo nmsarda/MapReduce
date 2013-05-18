@@ -32,8 +32,16 @@ public class JobRunner {
 		Logger.getLogger().log(Level.FINEST,"In JobRunner!");
 		spec.calculateThreads();
 		CreateInputFiles setUpFiles = new CreateInputFiles(spec);
-		System.out.println("\nSetting up Input files from database. \n");
-		setUpFiles.createFiles(); // Sets up the input files by reading from database.
+		if(spec.getMapReduceInput().getInputDirectory() == null)
+		{
+			System.out.println("\nSetting up Input files from database. \n");
+			setUpFiles.createFiles(); // Sets up the input files by reading from database.
+		}
+		else
+		{
+			setUpFiles.setFileInfo();
+		}
+		
 		Class<?> temp;
 		ArrayList<FileSplitInformation> splits = null;
 		if((temp = spec.getMapReduceInput().getInputFormatClass()) != null){

@@ -33,7 +33,17 @@ this.value = value;
 
 @Override
 	public int compareTo(KeyValueClass<K, V> o) {
+	if (o.key instanceof String)
+	{
+		String key1 = (String)o.key;
+		String key2 = (String)this.key;
+		return key2.compareToIgnoreCase(key1);
+		
+	}
+	else
 	return this.key.compareTo(o.key);
+	
+		
 }
 
 }

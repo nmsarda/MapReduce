@@ -21,7 +21,7 @@ public class FileRecordReader implements RecordReader {
 		currentBytePosition = split.getStart();
 		this.split = split;
 		try {			
-			file = new RandomAccessFile(split.getFileInfo().getFileName(), "r");			
+			file = new RandomAccessFile(split.getFileInfo().getFilePath(), "r");			
 		} catch (IOException e) {			
 			Logger.getLogger().log(Level.SEVERE,e.getMessage());
 		}

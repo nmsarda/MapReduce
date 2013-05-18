@@ -74,5 +74,19 @@ public class CreateInputFiles {
 		return false;
 	
 	}*/
+
+	public void setFileInfo() {
+		// TODO Auto-generated method stub
+		File dir = new File(spec.getMapReduceInput().getInputDirectory());
+		int numberOfFiles = dir.listFiles().length;
+		FileInformation fileInfo;
+		spec.getMapReduceInput().setNumberOfFiles(numberOfFiles);
+		for(File file:dir.listFiles())
+		{
+			fileInfo = new FileInformation(file.getAbsolutePath(), file.getName());
+			spec.getMapReduceInput().setFiles(fileInfo);
+		}
+		
+	}
 	
 }
