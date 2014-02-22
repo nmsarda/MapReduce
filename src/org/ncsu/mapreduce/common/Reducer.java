@@ -7,5 +7,5 @@ import java.util.ArrayList;
  */
 
 public interface Reducer {
-	public String Reduce(String key, ArrayList<String> values);
+	public String reduce(String key, ArrayList<String> values);
 }

@@ -6,8 +6,10 @@ import java.util.regex.Pattern;
 
 import org.ncsu.mapreduce.common.KeyValueClass;
 
-public class Mapper {
-	
+
+public class Mapper implements org.ncsu.mapreduce.common.Mapper<String,Integer>  
+{
+	@Override
 	public ArrayList<KeyValueClass<String, Integer>> map(String t){
 		ArrayList<KeyValueClass<String, Integer>> list = new ArrayList<>();
 		
@@ -24,4 +26,7 @@ public class Mapper {
 		return list;
 	}
 
+	
 }
+
+

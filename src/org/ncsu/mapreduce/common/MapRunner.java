@@ -19,12 +19,14 @@ public class MapRunner implements Runnable{
 	private int threadID;
 	private int mapperID;
 	private FileSplitInformation split;
+	private Mapper mapperInstance;
 	MapReduceSpecification spec;
-	public MapRunner(MapReduceSpecification spec, FileSplitInformation split, int id, int mapperId){
+	public MapRunner(MapReduceSpecification spec, FileSplitInformation split, int id, int mapperId,Mapper mapperInstance){
 		this.split = split;
 		this.threadID = id;
 		this.spec = spec;
 		this.mapperID = mapperId;
+		this.mapperInstance =  mapperInstance;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -43,14 +45,14 @@ public class MapRunner implements Runnable{
 				/*
 				 * Invoke Map function.
 				 */
-				Method map = spec.getMapReduceInput().getMapperClass().getDeclaredMethod("map", String.class);
-				Object o1 = spec.getMapReduceInput().getMapperClass().newInstance();
+				//Method map = spec.getMapReduceInput().getMapperClass().getDeclaredMethod("map", String.class);
+				//Object o1 = spec.getMapReduceInput().getMapperClass().newInstance();
 				if(list == null)
-					list = (ArrayList<KeyValueClass<?, ?>>) map.invoke(o1, temp1);
+					list = (ArrayList<KeyValueClass<?, ?>>) mapperInstance.map(temp1);
 				else
-					list.addAll((ArrayList<KeyValueClass<?, ?>>) map.invoke(o1, temp1));				
+					list.addAll((ArrayList<KeyValueClass<?, ?>>) mapperInstance.map(temp1));				
 				
-			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				Logger.getLogger().log(Level.SEVERE,e.toString());
 			}			

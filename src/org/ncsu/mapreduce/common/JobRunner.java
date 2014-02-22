@@ -82,9 +82,15 @@ public class JobRunner {
 		 * Each Thread executes the map function
 		 */
 		System.out.println("\nMap Phase Starting");
-		ExecutorService executor = Executors.newFixedThreadPool((int)spec.getNoOfMappers());			
+		ExecutorService executor = Executors.newFixedThreadPool((int)spec.getNoOfMappers());
+	
 		for(int i =0, k=0; i < splits.size(); i++, k = (k+1)%(int)spec.getNoOfMappers()){			
-			executor.submit(new MapRunner(spec, splits.get(i), i, k)); // Creates new Thread for MapRunner
+			try {
+				executor.submit(new MapRunner(spec, splits.get(i), i, k,(Mapper)spec.getMapReduceInput().getMapperClass().newInstance()));
+			} catch (InstantiationException | IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // Creates new Thread for MapRunner
 		}
 		executor.shutdown(); //Stop accepting new tasks.
 		try {
@@ -100,7 +106,12 @@ public class JobRunner {
 	        System.out.println("\nReduce Phase Starting");
 	    executor = Executors.newFixedThreadPool((int)spec.getNoOfReducers());
 	    for(int i =0; i < (int)spec.getNoOfReducers(); i++){			
-			executor.submit(new ReduceRunner(spec, i)); // Creates new Thread for ReducerRunner
+			try {
+				executor.submit(new ReduceRunner(spec, i,(Reducer)spec.getMapReduceOutputClass().getReducerClass().newInstance()));
+			} catch (InstantiationException | IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // Creates new Thread for ReducerRunner
 		}
 		executor.shutdown();
 		try {

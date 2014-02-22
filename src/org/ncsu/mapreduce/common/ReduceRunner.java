@@ -22,9 +22,11 @@ public class ReduceRunner implements Runnable {
 	private int reducerId;
 	private BufferedWriter fileWriter;
 	private MapReduceSpecification spec;
-	public ReduceRunner(MapReduceSpecification spec, int reducerId){
+	private Reducer reducerInstance;
+	public ReduceRunner(MapReduceSpecification spec, int reducerId,Reducer reducerInstance){
 		this.spec = spec;
-		this.reducerId = reducerId;				
+		this.reducerId = reducerId;	
+		this.reducerInstance = reducerInstance;
 		String completeFilePath = spec.getMapReduceOutputClass().getOutputFileDirectory() + System.getProperty("file.separator") + "Reducer" + reducerId;
 		File subDir = new File(spec.getMapReduceOutputClass().getOutputFileDirectory());
 		subDir.mkdir();
@@ -64,11 +66,12 @@ public class ReduceRunner implements Runnable {
 			}
 			else{				
 				try {
-					Method reduce = spec.getMapReduceOutputClass().getReducerClass().getDeclaredMethod("reduce", String.class, ArrayList.class);
-					Object o1 = spec.getMapReduceOutputClass().getReducerClass().newInstance();					
-					String value = (String) reduce.invoke(o1, currentKey, valueList);
+//					Method reduce = spec.getMapReduceOutputClass().getReducerClass().getDeclaredMethod("reduce", String.class, ArrayList.class);
+//					Object o1 = spec.getMapReduceOutputClass().getReducerClass().newInstance();					
+//					String value = (String) reduce.invoke(o1, currentKey, valueList);
+					String value =  reducerInstance.reduce(currentKey, valueList);
 					writeInFile(currentKey, value);
-				} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {					
+				} catch (Exception e) {					
 					Logger.getLogger().log(Level.SEVERE,e.toString());
 				}
 				currentKey = key[0];
